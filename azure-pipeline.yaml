@@ -1,0 +1,43 @@
+# Dockerized web application hosting on Azure app service
+
+trigger:
+- none
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'docker-connection'
+  armConnection: 'test-connection'
+  imageRepository: 'reactapp'
+  containerRegistry: 'dotnetreg3.azurecr.io'
+  appName: 'dockerapppd'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool: nodepool
+    steps:
+
+    # Build and deploy node app docker image to azure container registry
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+     ## Deploy container in web app
+    - task: AzureWebAppContainer@1
+      displayName: 'Azure Web App on Container Deploy'
+      inputs:
+        azureSubscription: $(armConnection)          # Azure Resource Connection
+        appName: $(appName)
+        containers: $(containerRegistry)/$(imageRepository):$(tag)
+        containerCommand: 'npm start'
