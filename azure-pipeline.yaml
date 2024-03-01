@@ -1,5 +1,6 @@
 # Dockerized web application hosting on Azure app service
 
+
 trigger:
 - none
 
@@ -28,8 +29,13 @@ stages:
         scannerMode: 'CLI'
         configMode: 'manual'
         cliProjectKey: 'Project1'
-        cliProjectName: 'apmcr10'
+        cliProjectName: 'Testsonar'
         cliSources: '.'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner, 
+          # Put one key=value per line, example:
+          # sonar.exclusions=**/*.bin
+          sonar.java.binaries=.
 
     - task: SonarQubeAnalyze@5
       inputs:
