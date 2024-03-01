@@ -22,6 +22,23 @@ stages:
     pool: nodepool
     steps:
 
+    - task: SonarQubePrepare@5
+      inputs:
+        SonarQube: 'sonar-con'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'Project1'
+        cliProjectName: 'apmcr10'
+        cliSources: '.'
+
+    - task: SonarQubeAnalyze@5
+      inputs:
+        jdkversion: 'JAVA_HOME_11_X64'
+
+    - task: SonarQubePublish@5
+      inputs:
+        pollingTimeoutSec: '300'
+
     # Build and deploy node app docker image to azure container registry
     - task: Docker@2
       displayName: Build and push an image to container registry
