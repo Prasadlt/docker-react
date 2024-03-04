@@ -28,8 +28,8 @@ stages:
         SonarQube: 'sonar-con'
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: 'apmcr10_apmcr10_1bfb3fb0-209b-4303-8ab6-b2b04025f689'
-        cliProjectName: 'apmcr10'
+        cliProjectKey: 'Project1'
+        cliProjectName: 'Testsonar'
         cliSources: '.'
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
