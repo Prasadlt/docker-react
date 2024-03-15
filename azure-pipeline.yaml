@@ -10,7 +10,7 @@ variables:
   armConnection: 'test-connection'
   imageRepository: 'reactapp'
   containerRegistry: 'dotnetreg3.azurecr.io'
-  appName: 'dockerapppd'
+  appName: 'testpd12'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
